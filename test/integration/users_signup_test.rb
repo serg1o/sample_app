@@ -31,5 +31,6 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_template 'users/show'
     assert_not flash.nil?
     assert_equal flash[:success], "Welcome to the Sample App!"
+    assert is_logged_in? #method defined in test/test_helper.rb
   end
 end
