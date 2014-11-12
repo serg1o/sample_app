@@ -14,8 +14,9 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password]) #method authenticate provided by has_secure_password (in the user's model)
       log_in @user #defined in sessions_helper.rb
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user) #remember or forget user based on wether the remember me checkbox was checked
-     # remember user #defined in sessions_helper.rb
-      redirect_to @user
+     # remember user #defined in sessions_helper.rb  
+      #redirect_to @user
+      redirect_back_or @user  #it's redirect_back_or user in the book
     else
       flash.now[:danger] = 'Invalid email/password combination'
       render 'new'

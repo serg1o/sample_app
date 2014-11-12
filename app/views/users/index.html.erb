@@ -1,0 +1,24 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= will_paginate %>
+
+<ul class="users">
+<!-- version 1 -->
+<!--  <% @users.each do |user| %>
+    <li>
+      <%= gravatar_for user, size: 50 %>
+      <%= link_to user.name, user %>
+    </li>
+  <% end %> -->
+
+<!-- version 2 -->
+<!--  <% @users.each do |user| %> -->
+<!--    <%= render user %> --><!-- rails automatically looks for a partial called _user.html.erb when render user is called and which contains the commented li element above-->
+<!--  <% end %> -->
+
+<!-- version 3 -->
+  <%= render @users %> <!-- rails automatically looks for a partial called _user.html.erb, as commented above -->
+</ul>
+
+<%= will_paginate %>

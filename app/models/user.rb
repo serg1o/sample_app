@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: {case_sensitive: false}
   has_secure_password
-  validates :password, length: { minimum: 6 }
+  validates :password, length: { minimum: 6 }, allow_blank: true #allow the user to submit blank passwords when updating his profile.
+  #This only applies to updating users and not to creating users which enforces presence of password through has_secure_password
 
   # Returns the hash digest of the given string.
   def self.digest(string) #same as User.digest(string)
