@@ -18,7 +18,8 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   test "successful edit with friendly forwarding" do
     get edit_user_path(@user) # first access the edit page without being logged in (the user will redirected to the login page)
     log_in_as(@user) # then log in the user
-    assert_redirected_to edit_user_path(@user) # verify that the user is redirected to the page he was trying to access when not logged in (in this case: edit_user_path)
+    assert_redirected_to edit_user_path(@user) # verify that the user is redirected to the page he was trying to access when not logged in
+    assert_equal session[:forwarding_url], nil
     name  = "Foo Bar"
     email = "foo@bar.com"
     patch user_path(@user), user: { name:  name,
