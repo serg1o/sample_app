@@ -30,4 +30,19 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     get user_path(users(:archer))
     assert_select 'a', { text: 'delete', count: 0 }
   end
+
+  test "micropost sidebar count" do
+    log_in_as(@user)
+    get root_path
+    post_count = @user.microposts.count
+    assert_match "#{post_count} microposts", response.body if post_count > 1
+    # User with zero microposts
+    other_user = users(:mallory)
+    log_in_as(other_user)
+    get root_path
+    assert_match "0 microposts", response.body
+    other_user.microposts.create!(content: "A micropost")
+    get root_path
+    assert_match "1 micropost", response.body
+  end
 end
