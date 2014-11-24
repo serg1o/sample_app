@@ -1,9 +1,6 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
 
   def setup
     @user = User.new(name: "Example User", email: "user@example.com", password: "foobar", password_confirmation: "foobar")
@@ -106,6 +103,24 @@ class UserTest < ActiveSupport::TestCase
     # Posts from unfollowed user
     archer.microposts.each do |post_unfollowed|
       assert_not michael.feed.include?(post_unfollowed)
+    end
+  end
+
+  test "should remove relationships where a deleted user was a follower" do
+    archer  = users(:archer)
+    lana    = users(:lana)
+    lana.follow(archer)
+    assert_difference 'archer.followers.count', -1 do
+      lana.destroy
+    end
+  end
+
+  test "should remove relationships where a deleted user was following other user" do
+    archer  = users(:archer)
+    lana    = users(:lana)
+    archer.follow(lana)
+    assert_difference 'archer.following.count', -1 do
+      lana.destroy
     end
   end
 end
